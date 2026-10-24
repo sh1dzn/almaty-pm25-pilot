@@ -8,6 +8,8 @@ c=json.loads((R/'config.json').read_text());meta=json.loads((out/'run_metadata.j
 p=pd.read_csv(out/'predictions.csv.gz',parse_dates=['issue_time','target_time'])
 d=pd.read_csv(out/'hourly_prepared.csv.gz',index_col=0,parse_dates=True)
 m=pd.read_csv(out/'metrics_by_seed.csv')
+source=pd.read_csv(R/'data/pm25.csv.gz');source=source[source.station_id.eq(c['station_id'])]
+assert (abs(source.value_ugm3-source.raw_value*1000)<=0.00500001).all(), 'Published values must agree with unit conversion within two-decimal rounding'
 assert len(p)>0 and p[['observed','predicted','persistence']].notna().all().all()
 assert np.isfinite(p[['observed','predicted','persistence']]).all().all()
 assert set(p['model'])=={'Persistence','Ridge','Random forest','XGBoost','LSTM'}

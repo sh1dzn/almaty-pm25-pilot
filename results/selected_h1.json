@@ -1,0 +1,20 @@
+{
+  "horizon": 1,
+  "parameters": {
+    "Ridge": 10,
+    "Random forest": 16,
+    "XGBoost": 3,
+    "LSTM": 32
+  },
+  "validation_RMSE": {
+    "Persistence": 17.18111123965789,
+    "Ridge": 16.102318841624328,
+    "Random forest": 16.22927766401338,
+    "XGBoost": 16.27709426816105,
+    "LSTM": 16.42406627861341
+  },
+  "validation_winner": "Ridge",
+  "train_n": 11085,
+  "validation_n": 5546,
+  "test_n": 6064
+}

@@ -1,0 +1,21 @@
+{
+  "config_sha256": "127acc18594a9992a343882bb95ca4198e7694b755759510d31fc870a501e518",
+  "software": {
+    "numpy": "2.5.4",
+    "pandas": "3.1.0",
+    "scipy": "1.18.1",
+    "scikit-learn": "1.9.1",
+    "xgboost": "3.4.1",
+    "torch": "2.14.1",
+    "matplotlib": "3.11.2"
+  },
+  "python": "3.12.14",
+  "platform": "macOS-27.0-arm64-arm-64bit",
+  "machine": "arm64",
+  "cpu": "Apple M2 Pro",
+  "memory_bytes": 17179869184,
+  "torch_threads": 4,
+  "training_device": "CPU",
+  "total_seconds": 300.70610189437866,
+  "complete": true
+}

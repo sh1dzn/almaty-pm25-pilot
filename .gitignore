@@ -10,3 +10,5 @@ __pycache__/
 *.blg
 *.out
 *.synctex.gz
+results/lstm_job*
+results/process_sample.txt
