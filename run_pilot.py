@@ -201,19 +201,9 @@ for h in C['horizons_hours']:
   r=np.sqrt(tot[:,1]/tot[:,0]);ma=tot[:,2]/tot[:,0]
   boot.append(dict(horizon=h,model=name,seed=C['seeds'][0],RMSE_low=np.quantile(r,.025),RMSE_high=np.quantile(r,.975),MAE_low=np.quantile(ma,.025),MAE_high=np.quantile(ma,.975),blocks=len(b),block_hours=168,replicates=C['bootstrap_replicates']))
 pd.DataFrame(boot).to_csv(OUT/'bootstrap_ci.csv',index=False)
-# Export scientific vector figures.
-plt.rcParams.update({'font.family':'DejaVu Sans','font.size':9,'axes.spines.top':False,'axes.spines.right':False,'savefig.bbox':'tight'})
-fig,axs=plt.subplots(1,2,figsize=(9,3.3));allm=m[m.group.eq('All')]
-for name,g in allm.groupby('model'):
- s=g.groupby('horizon').agg(r=('RMSE','mean'),s=('RMSE','std'),skill=('SS','mean')).fillna(0)
- axs[0].errorbar(s.index,s.r,yerr=s.s,marker='o',capsize=3,label=name);axs[1].plot(s.index,s.skill,marker='o',label=name)
-axs[0].set(xlabel='Forecast horizon (h)',ylabel='RMSE (µg/m³)',xticks=C['horizons_hours']);axs[1].set(xlabel='Forecast horizon (h)',ylabel='Skill relative to persistence',xticks=C['horizons_hours']);axs[1].axhline(0,color='.4',lw=.7)
-axs[0].legend(fontsize=7);fig.tight_layout();fig.savefig(OUT/'horizon_performance.pdf');fig.savefig(OUT/'horizon_performance.png',dpi=160);plt.close(fig)
-sel=json.loads((OUT/'selected_h24.json').read_text());winner=sel['validation_winner'];z=pred[(pred.horizon==24)&(pred.model==winner)&(pred.seed==11)].copy();z['time']=pd.to_datetime(z.target_time,utc=True);z['residual']=z.predicted-z.observed
-fig,axs=plt.subplots(1,2,figsize=(9,3.4));vmax=max(z.observed.max(),z.predicted.max());axs[0].scatter(z.observed,z.predicted,s=5,alpha=.18);axs[0].plot([0,vmax],[0,vmax],color='.3',lw=.8);axs[0].set(xlabel='Observed PM₂.₅ (µg/m³)',ylabel='24 h forecast PM₂.₅ (µg/m³)')
-cm=confusion_matrix(z.observed>35,z.predicted>35,labels=[False,True]);axs[1].imshow(cm,cmap='Blues')
-for (i,j),v in np.ndenumerate(cm):axs[1].text(j,i,str(v),ha='center',va='center',color='white' if v>cm.max()/2 else 'black')
-axs[1].set(xticks=[0,1],yticks=[0,1],xticklabels=['≤35','>35'],yticklabels=['≤35','>35'],xlabel='Predicted PM₂.₅ (µg/m³)',ylabel='Observed PM₂.₅ (µg/m³)');fig.suptitle(f'Preliminary 2025 errors: {winner}, seed 11, 24 h horizon');fig.tight_layout();fig.savefig(OUT/'error_analysis.pdf');fig.savefig(OUT/'error_analysis.png',dpi=160);plt.close(fig)
+# Figure labels are sized for the article's text width.
+subprocess.run([sys.executable,str(R/'render_figures.py')],check=True)
+
 versions={p:importlib.metadata.version(p) for p in ['numpy','pandas','scipy','scikit-learn','xgboost','torch','matplotlib']}
 meta=dict(config_sha256=hashlib.sha256((R/'config.json').read_bytes()).hexdigest(),software=versions,python=platform.python_version(),platform=platform.platform(),machine=platform.machine(),cpu=subprocess.check_output(['sysctl','-n','machdep.cpu.brand_string'],text=True).strip(),memory_bytes=int(subprocess.check_output(['sysctl','-n','hw.memsize'],text=True)),torch_threads=C['hardware_threads'],training_device='CPU',total_seconds=time.time()-START,complete=True)
 (OUT/'run_metadata.json').write_text(json.dumps(meta,indent=2));print('COMPLETE',json.dumps(meta),flush=True)
