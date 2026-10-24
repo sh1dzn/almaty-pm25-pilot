@@ -55,6 +55,7 @@ assert not w.index.duplicated().any()
 for col in w.columns: d[col]=w[col].reindex(grid)
 angle=np.deg2rad(d.pop('wind_direction_10m'));speed=d.pop('wind_speed_10m');d['wind_u']=-speed*np.sin(angle);d['wind_v']=-speed*np.cos(angle)
 WEATHER=list(w.columns);WEATHER.remove('wind_speed_10m');WEATHER.remove('wind_direction_10m');WEATHER+=['wind_u','wind_v']
+WEATHER=[col for col in WEATHER if col not in C.get('excluded_weather_variables',[])]
 assert d[WEATHER].notna().all().all()
 local=grid.tz_convert(C['timezone']);md=local.strftime('%m-%d')
 d['heating']=((md>='10-15')|(md<'04-15')).astype(float)

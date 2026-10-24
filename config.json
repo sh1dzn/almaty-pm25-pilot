@@ -4,22 +4,54 @@
   "station_name": "Karasu 6th Street 122 Almaty",
   "station_selection": "government PM2.5 station with at least 75 percent published hourly coverage across 2022-2025; chosen using availability only, before model fitting",
   "timezone": "Asia/Almaty",
-  "train_years": [2022, 2023],
-  "validation_years": [2024],
-  "test_years": [2025],
-  "horizons_hours": [1, 6, 12, 24],
-  "seeds": [11, 22, 33, 44, 55],
+  "train_years": [
+    2022,
+    2023
+  ],
+  "validation_years": [
+    2024
+  ],
+  "test_years": [
+    2025
+  ],
+  "horizons_hours": [
+    1,
+    6,
+    12,
+    24
+  ],
+  "seeds": [
+    11,
+    22,
+    33,
+    44,
+    55
+  ],
   "lookback_hours": 24,
   "causal_fill_limit_hours": 3,
   "heating_proxy": "15 October through 14 April, by target local date, not official annual heating dates",
-  "ridge_alpha": [0.1, 1, 10, 100],
-  "rf_max_depth": [8, 16],
+  "ridge_alpha": [
+    0.1,
+    1,
+    10,
+    100
+  ],
+  "rf_max_depth": [
+    8,
+    16
+  ],
   "rf_n_estimators": 150,
   "rf_min_samples_leaf": 3,
-  "xgb_max_depth": [3, 5],
+  "xgb_max_depth": [
+    3,
+    5
+  ],
   "xgb_n_estimators": 200,
   "xgb_learning_rate": 0.05,
-  "lstm_hidden_sizes": [16, 32],
+  "lstm_hidden_sizes": [
+    16,
+    32
+  ],
   "lstm_max_epochs": 30,
   "lstm_patience": 10,
   "lstm_batch_size": 256,
@@ -33,5 +65,9 @@
   "test_selection": "identical eligible issue times for all five models at each horizon; target must be observed and pass quality control; issue and target must remain in the same split",
   "nonnegative_prediction_clipping": false,
   "hardware_threads": 4,
-  "created_local_date": "2026-10-25"
+  "created_local_date": "2026-10-25",
+  "excluded_weather_variables": [
+    "boundary_layer_height"
+  ],
+  "pretraining_data_check": "ERA5 boundary_layer_height has 4368 missing hourly values in the requested archive. Excluded from every model before tuning rather than filling with future data."
 }
