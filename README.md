@@ -33,7 +33,7 @@ The recorded run used Python 3.12.14 on an Apple M2 Pro with 16 GiB RAM and four
 
 Air quality: [AirData.kz open dataset](https://github.com/qazybekb/AirDatakz-OpenData), commit `f23d17308a4b51cf5b2855225bd5e440e6713c47`. Weather: ERA5 through the [Open-Meteo Historical Weather API](https://open-meteo.com/en/docs/historical-weather-api). File hashes and source URLs are in `data/`.
 
-AirData.kz data are CC BY-NC 4.0 with attribution; the source license is in `data/LICENSE`. The download script verifies the air-quality snapshot. Retain the weather snapshot to reproduce its exact hash, since providers may revise historical data.
+AirData.kz data are CC BY-NC 4.0 with attribution; the source license is in `data/LICENSE`. The download script verifies the air-quality snapshot. The exact weather snapshot is included and hash-checked, since providers may revise historical data.
 
 ## Outputs
 

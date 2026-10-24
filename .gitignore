@@ -12,3 +12,15 @@ __pycache__/
 *.synctex.gz
 results/lstm_job*
 results/process_sample.txt
+data/pm*.csv.gz
+data/stations.csv
+data/station_periods.csv
+data/selected_station_source.csv
+data/github_commit.json
+data/DATASHEET.md
+data/DATA_DICTIONARY.md
+data/README.md
+results/hourly_prepared.csv.gz
+overleaf/
+HANDOFF.md
+build_tables.py

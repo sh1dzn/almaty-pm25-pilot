@@ -11,6 +11,9 @@ for name,info in manifest['files'].items():
 wurl='https://archive-api.open-meteo.com/v1/archive?latitude=43.338996&longitude=76.903239&start_date=2021-12-30&end_date=2025-12-31&hourly=temperature_2m,relative_humidity_2m,pressure_msl,wind_speed_10m,wind_direction_10m,precipitation,boundary_layer_height&models=era5&timezone=GMT&wind_speed_unit=ms'
 p=R/'data/weather_era5.json'
 if not p.exists():subprocess.run(['curl','-fsSL','--retry','2','--max-time','120',wurl,'-o',str(p)],check=True)
+weather_manifest=json.loads((R/'data/weather_manifest.json').read_text())
+if hashlib.sha256(p.read_bytes()).hexdigest()!=weather_manifest['sha256']:
+ raise RuntimeError('Weather snapshot checksum differs; use the versioned weather_era5.json supplied with the repository')
 print('AirData snapshot verified:',manifest['commit'])
 print('Weather requested from ERA5 via Open-Meteo:',wurl)
 print('Weather SHA256:',hashlib.sha256(p.read_bytes()).hexdigest())
