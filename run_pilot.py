@@ -16,16 +16,13 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import make_pipeline
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score, precision_recall_fscore_support, confusion_matrix
 from xgboost import XGBRegressor
-import torch
-from torch import nn
-from torch.utils.data import DataLoader,TensorDataset
+import sys
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
 R=Path(__file__).resolve().parent; OUT=R/'results'; OUT.mkdir(exist_ok=True)
 C=json.loads((R/'config.json').read_text()); START=time.time()
-torch.set_num_threads(C['hardware_threads'])
 
 def metrics(y,p,ref=None):
     rmse=np.sqrt(mean_squared_error(y,p)); prec,rec,f1,_=precision_recall_fscore_support(y>35,p>35,average='binary',zero_division=0)
@@ -60,7 +57,7 @@ assert d[WEATHER].notna().all().all()
 local=grid.tz_convert(C['timezone']);md=local.strftime('%m-%d')
 d['heating']=((md>='10-15')|(md<'04-15')).astype(float)
 CAL=['heating']
-for name,v,period in [('hour',local.hour,24),('weekday',local.dayofweek,7),('month',local.month-1,12)]:
+for name,v,period in [('hour',local.hour,24),('weekday',local.day_of_week,7),('month',local.month-1,12)]:
  for trig,fn in [('sin',np.sin),('cos',np.cos)]:
   col=f'{name}_{trig}';d[col]=fn(2*np.pi*v/period);CAL.append(col)
 # Reset forward filling at every split; target is never filled.
@@ -88,37 +85,20 @@ sequences=np.concatenate([np.full((24,25,seqraw.shape[1]),np.nan,dtype=np.float3
 seqvalid=np.isfinite(sequences).all(axis=(1,2))
 complete25=d.pm.notna().rolling(25,min_periods=25).sum().eq(25)
 
-class LSTM(nn.Module):
- def __init__(self,n,hidden):
-  super().__init__();self.lstm=nn.LSTM(n,hidden,batch_first=True);self.out=nn.Linear(hidden,1)
- def forward(self,x):return self.out(self.lstm(x)[0][:,-1]).squeeze(-1)
-
 def train_lstm(tr,va,y,hidden,seed):
- torch.manual_seed(seed);np.random.seed(seed)
- # Scale each physical input once from eligible training hours only.
- sc=StandardScaler().fit(seqraw[np.isin(np.arange(len(d)),tr)])
- def transform(ids):return sc.transform(sequences[ids].reshape(-1,len(SEQCOL))).reshape(len(ids),25,len(SEQCOL)).astype(np.float32)
- xt,xv=transform(tr),transform(va); ym=float(y[tr].mean());ys=float(y[tr].std())
- model=LSTM(len(SEQCOL),hidden); opt=torch.optim.Adam(model.parameters(),lr=C['lstm_learning_rate'])
- dl=DataLoader(TensorDataset(torch.tensor(xt),torch.tensor((y[tr]-ym)/ys,dtype=torch.float32)),batch_size=C['lstm_batch_size'],shuffle=True,generator=torch.Generator().manual_seed(seed))
- vx=torch.tensor(xv);vy=torch.tensor((y[va]-ym)/ys,dtype=torch.float32)
- best=float('inf');state=None;wait=0;bestepoch=0
- for epoch in range(C['lstm_max_epochs']):
-  model.train()
-  for xb,yb in dl:
-   opt.zero_grad();loss=((model(xb)-yb)**2).mean();loss.backward();torch.nn.utils.clip_grad_norm_(model.parameters(),5);opt.step()
-  model.eval()
-  with torch.no_grad():vl=float(((model(vx)-vy)**2).mean())
-  if vl<best-1e-5:best=vl;state=copy.deepcopy(model.state_dict());wait=0;bestepoch=epoch+1
-  else:wait+=1
-  if wait>=C['lstm_patience']:break
- model.load_state_dict(state);model.eval()
+ # Only eligible test rows are predicted; tuning still uses validation metrics.
+ # PyTorch is in a separate process to avoid the macOS duplicate-OpenMP deadlock.
+ te_current=np.where(np.isfinite(y)&(d.local_year.to_numpy()==2025)&seqvalid&X.notna().all(axis=1).to_numpy())[0]
+ job=OUT/'lstm_job.npz'
+ np.savez(job,seq=sequences,raw=seqraw,y=y,tr=tr,va=va,te=te_current,hidden=hidden,seed=seed,config=json.dumps(C))
+ subprocess.run([sys.executable,str(R/'lstm_worker.py'),str(job)],check=True)
+ result=np.load(job.with_suffix('.output.npz'));v=result['validation'].copy();test=result['test'].copy();ep=int(result['best_epoch'])
  def predict(ids):
-  batches=[];a=transform(ids)
-  with torch.no_grad():
-   for st in range(0,len(a),512):batches.append(model(torch.tensor(a[st:st+512])).numpy()*ys+ym)
-  return np.concatenate(batches)
- return predict,bestepoch
+  if np.array_equal(ids,va):return v
+  loc=np.searchsorted(te_current,ids)
+  assert np.array_equal(te_current[loc],ids)
+  return test[loc]
+ return predict,ep
 
 def make_model(name,param,seed):
  if name=='Ridge':return make_pipeline(StandardScaler(),Ridge(alpha=param))
@@ -235,5 +215,5 @@ cm=confusion_matrix(z.observed>35,z.predicted>35,labels=[False,True]);axs[1].ims
 for (i,j),v in np.ndenumerate(cm):axs[1].text(j,i,str(v),ha='center',va='center',color='white' if v>cm.max()/2 else 'black')
 axs[1].set(xticks=[0,1],yticks=[0,1],xticklabels=['≤35','>35'],yticklabels=['≤35','>35'],xlabel='Predicted PM₂.₅ (µg/m³)',ylabel='Observed PM₂.₅ (µg/m³)');fig.suptitle(f'Preliminary 2025 errors: {winner}, seed 11, 24 h horizon');fig.tight_layout();fig.savefig(OUT/'error_analysis.pdf');fig.savefig(OUT/'error_analysis.png',dpi=160);plt.close(fig)
 versions={p:importlib.metadata.version(p) for p in ['numpy','pandas','scipy','scikit-learn','xgboost','torch','matplotlib']}
-meta=dict(config_sha256=hashlib.sha256((R/'config.json').read_bytes()).hexdigest(),software=versions,python=platform.python_version(),platform=platform.platform(),machine=platform.machine(),cpu=subprocess.check_output(['sysctl','-n','machdep.cpu.brand_string'],text=True).strip(),memory_bytes=int(subprocess.check_output(['sysctl','-n','hw.memsize'],text=True)),torch_threads=torch.get_num_threads(),training_device='CPU',total_seconds=time.time()-START,complete=True)
+meta=dict(config_sha256=hashlib.sha256((R/'config.json').read_bytes()).hexdigest(),software=versions,python=platform.python_version(),platform=platform.platform(),machine=platform.machine(),cpu=subprocess.check_output(['sysctl','-n','machdep.cpu.brand_string'],text=True).strip(),memory_bytes=int(subprocess.check_output(['sysctl','-n','hw.memsize'],text=True)),torch_threads=C['hardware_threads'],training_device='CPU',total_seconds=time.time()-START,complete=True)
 (OUT/'run_metadata.json').write_text(json.dumps(meta,indent=2));print('COMPLETE',json.dumps(meta),flush=True)
