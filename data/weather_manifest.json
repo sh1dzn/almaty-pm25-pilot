@@ -1,0 +1,8 @@
+{
+  "provider": "Open-Meteo Historical Weather API",
+  "model": "ERA5",
+  "source_documentation": "https://open-meteo.com/en/docs/historical-weather-api",
+  "sha256": "6336bbf015178e5bfb14838893d4d7e87fae1d46805bccb40da575d0dcb0204c",
+  "accessed_local_date": "2026-10-25",
+  "note": "Retrospective reanalysis, not as-issued operational weather observations; includes analysis information unavailable in real time."
+}

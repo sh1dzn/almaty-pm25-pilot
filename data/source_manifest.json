@@ -1,0 +1,45 @@
+{
+  "commit": "f23d17308a4b51cf5b2855225bd5e440e6713c47",
+  "files": {
+    "almaty/pm25.csv.gz": {
+      "url": "https://raw.githubusercontent.com/qazybekb/AirDatakz-OpenData/f23d17308a4b51cf5b2855225bd5e440e6713c47/almaty/pm25.csv.gz",
+      "bytes": 6290929,
+      "sha256": "eef663655ec2504dc8eb8de21383bbd0c0fe62ca3695f64dabfd81cbba7be105"
+    },
+    "almaty/pm10.csv.gz": {
+      "url": "https://raw.githubusercontent.com/qazybekb/AirDatakz-OpenData/f23d17308a4b51cf5b2855225bd5e440e6713c47/almaty/pm10.csv.gz",
+      "bytes": 3735514,
+      "sha256": "2a146dbe59def9d96ff6a0f50f5013463d4ca47598c8392d91c6b411e7cfb937"
+    },
+    "stations.csv": {
+      "url": "https://raw.githubusercontent.com/qazybekb/AirDatakz-OpenData/f23d17308a4b51cf5b2855225bd5e440e6713c47/stations.csv",
+      "bytes": 122580,
+      "sha256": "bdde0d28e5edf120c822ed4bc327acf4a4e1fe484278fa97dfa300410c958c7c"
+    },
+    "station_periods.csv": {
+      "url": "https://raw.githubusercontent.com/qazybekb/AirDatakz-OpenData/f23d17308a4b51cf5b2855225bd5e440e6713c47/station_periods.csv",
+      "bytes": 4164,
+      "sha256": "71f7ba4822f299c95d37598775ba5877f61c1a352adc93ce8f1d728a5e0235f9"
+    },
+    "DATASHEET.md": {
+      "url": "https://raw.githubusercontent.com/qazybekb/AirDatakz-OpenData/f23d17308a4b51cf5b2855225bd5e440e6713c47/DATASHEET.md",
+      "bytes": 11549,
+      "sha256": "4d9d7b4999611e6ede90f1fd8865f4130f3972efa5266905667194c076520166"
+    },
+    "README.md": {
+      "url": "https://raw.githubusercontent.com/qazybekb/AirDatakz-OpenData/f23d17308a4b51cf5b2855225bd5e440e6713c47/README.md",
+      "bytes": 41729,
+      "sha256": "d559444a67a76eaf43f604a5a00d3e3ffdd71a17b7e3cb2c9b38233bc9549b36"
+    },
+    "LICENSE": {
+      "url": "https://raw.githubusercontent.com/qazybekb/AirDatakz-OpenData/f23d17308a4b51cf5b2855225bd5e440e6713c47/LICENSE",
+      "bytes": 1178,
+      "sha256": "add949335582fa49239943f6c248344f13bbd6b33d2e505c91ab4a569481b4ea"
+    },
+    "DATA_DICTIONARY.md": {
+      "url": "https://raw.githubusercontent.com/qazybekb/AirDatakz-OpenData/f23d17308a4b51cf5b2855225bd5e440e6713c47/DATA_DICTIONARY.md",
+      "bytes": 4694,
+      "sha256": "fcb07a4313803a95ec7b65075a0ce1a850de14b0917136196cf1aca1cca82752"
+    }
+  }
+}

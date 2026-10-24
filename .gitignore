@@ -1,0 +1,12 @@
+.venv/
+.mpl-cache/
+__pycache__/
+*.zip
+*.png
+*.pdf
+*.log
+*.aux
+*.bbl
+*.blg
+*.out
+*.synctex.gz
