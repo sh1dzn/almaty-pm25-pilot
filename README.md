@@ -39,6 +39,20 @@ AirData.kz data are CC BY-NC 4.0 with attribution; the source license is in `dat
 
 `results/` contains dataset counts, seed-wise and seasonal metrics, predictions, input ablations, worst errors, weekly block-bootstrap intervals and Diebold–Mariano comparisons. `config.json` records the experiment settings. `verify_results.py` recomputes reported RMSE values and checks cohort equality, target observations and split boundaries.
 
+## Additional analyses
+
+```sh
+.venv/bin/python revision_analysis.py
+.venv/bin/python revision_figures.py
+.venv/bin/python revision_verify.py
+```
+
+These commands reuse the saved predictions without refitting. `revision_v2/` contains a row audit, recomputed main and seasonal metrics, an always-exceedance classifier, 22 unique DM comparisons, paired calendar-block bootstrap intervals, seed aggregation sensitivity, common-target persistence scores and consecutive-hour error groups. Figures are supplied as PDF and SVG.
+
+The primary bootstrap estimand is mean RMSE over the five individual runs. Seed 11 and the five-forecast ensemble are scored separately. Calendar blocks are anchored at 2025-01-01 00:00 UTC, span 168 elapsed hours, retain partial boundaries and omit empty blocks. All models share 1,000 draws within each horizon, using seed 20261025. DM families use the same fixed pairs for seed 11 and ensemble, with separate Holm corrections over 22 tests. Extra comparisons selected by test RMSE remain exploratory.
+
+The original 16-test family remains in `results/dm_tests.csv`; the extended family is in `revision_v2/dm_comparisons.csv`. For six-hour LSTM versus persistence, seed-11 Holm p changes from 0.2638 to 0.3165. Validation RMSE is logged rather than independently rescored. Ablation forecasts were not saved, so their seed metrics can be aggregated but not independently recomputed. `evidence_status.csv` records these distinctions.
+
 ## Scope
 
 This is a preliminary single-station experiment. It uses a small validation grid instead of the full planned Optuna search and rolling folds. Weather is retrospective reanalysis, not weather information available at forecast issue time. Boundary-layer height was excluded because 4,368 requested hours were missing; T850, other pollutant predictors and SHAP were not included.

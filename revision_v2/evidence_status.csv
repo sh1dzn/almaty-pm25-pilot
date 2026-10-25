@@ -1,0 +1,12 @@
+claim,status,evidence,limitation
+Main test metrics,independently recomputed,predictions.csv.gz,All eight original metrics agree exactly with saved metrics
+Seasonal metrics and always-exceedance,independently recomputed,predictions.csv.gz; target local dates,"All models, four horizons, two seasons, all stochastic seeds"
+Original 16 DM tests,independently recomputed,predictions.csv.gz; dm_tests.csv,"Mean losses, DM, raw p and original Holm values reproduced"
+Extended 22-test family,newly computed,predictions.csv.gz,Self-pairs and reversed duplicates excluded; seed11 and ensemble separately corrected
+Paired block bootstrap,newly computed,predictions.csv.gz; bootstrap_draws_h*.npz,"Mean metric, seed11 and ensemble; same block draws within horizon"
+Validation RMSE,"logged, not independently rescored",tuning.csv; selected_h*.json,Validation predictions/model checkpoints not saved; selected minima verified from logs
+Feature-group ablation,"reported, not independently recomputed",ablation_by_seed.csv; ablation_summary.csv,Metric aggregation verified; row-level forecasts unavailable
+Missing-input comparison,"reported, not independently recomputed",ablation_by_seed.csv; run_pilot.py,"Same complete-input test cohort by code, saved counts; independent paired rescore requires ablation forecasts"
+LSTM best checkpoint,recorded,metrics_by_seed.csv epochs,Not the actual final stopping epoch
+LSTM stopping epoch,reconstructed from control flow,lstm_worker.py; recorded best epoch,"min(best checkpoint + patience 10, max 30); no explicit stopped_epoch field saved"
+Original training runtime and versions,recorded,run_metadata.json,"Not invented or remeasured; 300.706 seconds, CPU"

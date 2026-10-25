@@ -1,0 +1,21 @@
+item,planned,actually_used,evidence,required_action
+Period,2019--2025; train 2019--2023,2022--2025; train 2022--2023,config.json; dataset_audit.csv,Disclose reduced data coverage; preserve original plan
+Stations,"Monitoring network, stations with >=75% valid hours","One station kgmt_159; 75.20% before QC, 73.56% after QC",source_manifest.json; dataset_audit.csv,Disclose pilot deviation and threshold failure
+Meteostat / ERA5,Airport station weather plus ERA5 boundary layer and T850,ERA5 surface weather via Open-Meteo; no Meteostat observations,weather_era5.json; run_pilot.py,Disclose substitution and retrospective availability
+PM10,Pollutant measurements/predictors when available,Used for PM2.5 > PM10 quality-control comparison only,run_pilot.py quality-control and features,Disclose predictor omission; retain QC role
+NO2,Additional pollutant data if available,Not used,run_pilot.py features,Planned component not completed
+SO2,Additional pollutant data if available,Not used,run_pilot.py features,Planned component not completed
+CO,Additional pollutant data if available,Not used,run_pilot.py features,Planned component not completed
+BLH,ERA5 boundary-layer height,"Excluded before tuning, 4368 missing hourly values",config.json; weather_era5.json,Disclose availability deviation; do not claim a BLH effect
+T850,ERA5 850-hPa temperature,Not included,run_pilot.py feature definitions,Planned component not completed
+Inversion indicator,T850 minus surface temperature; positive difference,Not included,run_pilot.py features,Planned component not completed
+Calendar,"Cyclical hour, weekday, month, holidays and heating","Cyclical hour/weekday/month, heating proxy; no holiday feature",run_pilot.py CAL,Disclose missing holiday predictor
+Window L,Choose from training ACF/PACF,"Fixed elapsed 24 hours, 25 values including current",run_pilot.py sliding_window_view; lstm_worker.py,Disclose fixed setting; correct any assertion of only 24 values
+Missing inputs,"Four reconstruction methods, artificial gaps 3/12/24 h; causal forecast inputs; complete-case sensitivity",Causal LOCF <=3 h reset every calendar year; complete-case XGB sensitivity,config.json; run_pilot.py; ablation_by_seed.csv,Disclose reduced treatment; artificial-gap benchmark uncompleted
+Ablation,"Separate pollutant/calendar, station meteorology and ERA5 groups, per model","XGB full vs no weather vs no calendar, same rows and selected depth",run_pilot.py; ablation_by_seed.csv,Disclose reduced grouping and model scope
+Seasonality,Official annual heating dates,15 Oct--14 Apr calendar proxy,config.json; target-time seasonal recomputation,Disclose proxy; do not call official dates
+Tuning,100 Optuna trials per model,Ridge 4 alphas; RF 2 depths; XGB 2 depths; LSTM 2 hidden sizes,tuning.csv; config.json,Disclose small grid; no new tuning claim
+Validation design,Rolling-origin validation,"Single held-out 2024 block, seed-11 tuning RMSE",selected_h*.json; tuning.csv,Disclose reduced design; validation forecasts missing
+Hardware,"8-core CPU, 32 GB RAM, NVIDIA GPU, optional Colab","Apple M2 Pro, 16 GiB, 4 CPU threads, no GPU",run_metadata.json,Disclose actual runtime environment; do not rewrite original proposal
+Python,Python 3.11,Python 3.12.14,run_metadata.json,Correct factual execution description; preserve proposed version
+SHAP,"Best-model SHAP, heating/non-heating",Not run,run_pilot.py; saved output inventory,Planned analysis not completed; no attribution claims

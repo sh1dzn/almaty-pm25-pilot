@@ -1,0 +1,11 @@
+{
+  "input_hashes_verified": true,
+  "six_hour_LSTM_mean_metric_CI_recomputed_with_frequency_weights": [
+    23.78367188001155,
+    33.17732808992785
+  ],
+  "direct_first_draw_RMSE": 25.077235669385868,
+  "all_error_groups_consecutive_and_thresholded": true,
+  "negative_24h_LSTM_forecasts": 32,
+  "undefined_classifier_regression_metrics_remain_missing": true
+}

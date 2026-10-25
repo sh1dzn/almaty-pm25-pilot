@@ -1,0 +1,32 @@
+{
+  "lookback_elapsed_hours": 24,
+  "sequence_values_including_current": 25,
+  "input_features": [
+    "filled",
+    "temperature_2m",
+    "relative_humidity_2m",
+    "pressure_msl",
+    "precipitation",
+    "wind_u",
+    "wind_v",
+    "heating",
+    "hour_sin",
+    "hour_cos",
+    "weekday_sin",
+    "weekday_cos",
+    "month_sin",
+    "month_cos"
+  ],
+  "layers": 1,
+  "dropout": 0.0,
+  "layers_and_dropout_provenance": "torch.nn.LSTM defaults, not tuned; one recurrent layer plus final linear output",
+  "optimizer": "Adam",
+  "learning_rate": 0.001,
+  "batch_size": 256,
+  "maximum_epochs": 30,
+  "patience": 10,
+  "gradient_norm_clip": 5,
+  "scaling": "Input mean and population SD fitted on eligible training issue-hour feature vectors, applied to every sequence step; target mean/SD fitted on training targets; zero input SD replaced by 1.",
+  "stop_epoch": "See lstm_epochs.csv; exact stop not explicitly saved; deterministic reconstruction is labelled.",
+  "architecture_evidence": "lstm_worker.py; selected_h*.json; metrics_by_seed.csv"
+}

@@ -1,0 +1,49 @@
+{
+  "input_rows": 407082,
+  "input_columns": [
+    "issue_time",
+    "target_time",
+    "horizon",
+    "model",
+    "seed",
+    "observed",
+    "predicted",
+    "persistence",
+    "heating"
+  ],
+  "station": "kgmt_159",
+  "station_source": "config.json, single-station run_pilot.py",
+  "split": "test, local issue and target year 2025",
+  "timezone": "UTC storage; Asia/Almaty calendars",
+  "duplicate_keys": 0,
+  "missing_fields": 0,
+  "nonfinite_numeric": 0,
+  "output_rows": 407082,
+  "removed_rows": 0,
+  "persistence_issue_observed_rows": 23315,
+  "persistence_issue_locf_rows": 631,
+  "persistence_mismatch_observed_issue": 0,
+  "alignment_rule": "No rows dropped; identical complete cohorts were already present for every model and seed within horizon.",
+  "max_metric_reproduction_abs_difference": 0.0,
+  "original_DM_16_reproduced": true,
+  "event_threshold_95_percentile": 72.49514385986323,
+  "event_rule": "Exploratory |error| strictly above global seed-11 24-h selected-model 95th percentile; group only adjacent exact hourly timestamps.",
+  "sha256": {
+    "results/predictions.csv.gz": "1b8b87211419888ddda0b4cbd3be5bfc3d842c28c2c556b8180789717362e0c3",
+    "results/hourly_prepared.csv.gz": "0aadef8733057b37d92eca5cbe1b3297c99396757570b606dcd271e4378d34c4",
+    "results/dm_tests.csv": "f23c927a5a9749c4e8f740f384c52c48ca7e3c1bc3fa04955b7efbe5c184e1ad",
+    "results/metrics_by_seed.csv": "3e116c7401a9c860ed8cca98912d69a3ac1283215444b49552fed517bf52b6cd",
+    "results/tuning.csv": "9812972da3198d021b3743dc67f8d85dd26d43e5473463c15bbabb838cc86a52",
+    "config.json": "127acc18594a9992a343882bb95ca4198e7694b755759510d31fc870a501e518",
+    "run_pilot.py": "c9049d937d153dfca5041c8fb6b8a98d9e03c9db964e14ad5420ae8cb6c5d1ad",
+    "lstm_worker.py": "32934b6731698e746bbfd19d90552a0c39fd52fd9bc53f01b7ac02af8991817e"
+  },
+  "analysis_seconds": 0.8772528171539307,
+  "python": "3.12.14",
+  "software": {
+    "numpy": "2.5.4",
+    "pandas": "3.1.0",
+    "scipy": "1.18.1",
+    "matplotlib": "3.11.2"
+  }
+}
