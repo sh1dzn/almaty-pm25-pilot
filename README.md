@@ -53,6 +53,14 @@ The primary bootstrap estimand is mean RMSE over the five individual runs. Seed 
 
 The original 16-test family remains in `results/dm_tests.csv`; the extended family is in `revision_v2/dm_comparisons.csv`. For six-hour LSTM versus persistence, seed-11 Holm p changes from 0.2638 to 0.3165. Validation RMSE is logged rather than independently rescored. Ablation forecasts were not saved, so their seed metrics can be aggregated but not independently recomputed. `evidence_status.csv` records these distinctions.
 
+To regenerate the seasonal skill matrices and hourly error diagnostics:
+
+```sh
+.venv/bin/python revision_result_visuals.py
+```
+
+`revision_v3/` contains two model-by-horizon seasonal skill matrices and 24-hour LSTM seed-11 MAE by local target hour. Hourly group counts and weighted MAE reconcile to the original seasonal metrics. These are descriptive summaries of saved forecasts, without new fitting or additional significance claims. Updated figures are available as PDF and SVG.
+
 ## Scope
 
 This is a preliminary single-station experiment. It uses a small validation grid instead of the full planned Optuna search and rolling folds. Weather is retrospective reanalysis, not weather information available at forecast issue time. Boundary-layer height was excluded because 4,368 requested hours were missing; T850, other pollutant predictors and SHAP were not included.

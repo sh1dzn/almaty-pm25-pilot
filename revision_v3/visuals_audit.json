@@ -1,0 +1,27 @@
+{
+  "scope": "presentation and separation of executed Methods from Results",
+  "new_training": false,
+  "new_visual_panels": [
+    "heating skill matrix",
+    "non-heating skill matrix",
+    "24-hour selected LSTM MAE by local target hour and season"
+  ],
+  "results_table_count": 5,
+  "results_figure_count": 3,
+  "methods_file": "pilot_implementation.tex",
+  "numeric_source_files": [
+    "revision_v2/seasonal_performance.csv",
+    "revision_v2/bootstrap_intervals.csv",
+    "revision_v2/error_diagnostics_data.csv"
+  ],
+  "source_sha256": {
+    "revision_v2/seasonal_performance.csv": "1c1f5fad6d5d01a95499498e35cb9235735a76356951dd9b151d1c261cf27bb2",
+    "revision_v2/bootstrap_intervals.csv": "b26021b77b59c711e27ba4b9a6cb2cfef2df2dbb440ea10896bdca529d51a93b",
+    "revision_v2/error_diagnostics_data.csv": "c7756353417f9bff707feb4f19253e899d204d4ce70e77696711ba1ee84be518"
+  },
+  "matrix_cells": 40,
+  "hour_season_groups": 48,
+  "hourly_diagnostics_rows_reconcile_to_original_seasonal_metrics": true,
+  "all_5902_forecasts_in_hexbin_including_32_negative": true,
+  "minimum_figure_label_bp": 8.4935
+}

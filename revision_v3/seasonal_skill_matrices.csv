@@ -1,0 +1,41 @@
+season,model,horizon,skill_percent
+Heating,Persistence,1,0.0
+Heating,Persistence,6,0.0
+Heating,Persistence,12,0.0
+Heating,Persistence,24,0.0
+Heating,Ridge,1,7.092248296138792
+Heating,Ridge,6,27.629835395950366
+Heating,Ridge,12,35.664142685259534
+Heating,Ridge,24,15.812824019690142
+Heating,Random forest,1,7.407435331315507
+Heating,Random forest,6,26.225342716106546
+Heating,Random forest,12,33.965373045575106
+Heating,Random forest,24,8.908594126005891
+Heating,XGBoost,1,7.822970633043799
+Heating,XGBoost,6,29.453625935618234
+Heating,XGBoost,12,36.133865936474855
+Heating,XGBoost,24,12.937942589361946
+Heating,LSTM,1,-3.1512422648094818
+Heating,LSTM,6,19.38234750603663
+Heating,LSTM,12,25.068073058358774
+Heating,LSTM,24,11.76801659901265
+Non-heating,Persistence,1,0.0
+Non-heating,Persistence,6,0.0
+Non-heating,Persistence,12,0.0
+Non-heating,Persistence,24,0.0
+Non-heating,Ridge,1,4.07666596494315
+Non-heating,Ridge,6,24.47003356211024
+Non-heating,Ridge,12,35.038679022497185
+Non-heating,Ridge,24,3.708137938653999
+Non-heating,Random forest,1,-4.161757452729304
+Non-heating,Random forest,6,24.529446414997125
+Non-heating,Random forest,12,37.48014301531787
+Non-heating,Random forest,24,11.590670051130534
+Non-heating,XGBoost,1,4.756836603767402
+Non-heating,XGBoost,6,31.36578207067918
+Non-heating,XGBoost,12,38.63430696897094
+Non-heating,XGBoost,24,12.950881640311726
+Non-heating,LSTM,1,-5.3742283433725335
+Non-heating,LSTM,6,32.77043149969645
+Non-heating,LSTM,12,36.713347960762945
+Non-heating,LSTM,24,7.1304069296452415
